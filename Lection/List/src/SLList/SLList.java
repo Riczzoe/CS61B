@@ -5,6 +5,7 @@ public class SLList {
     public static class IntNode {
         public int item;
         public IntNode next;
+        public IntNode prev;
 
         public IntNode(int item, IntNode next) {
             this.item = item;
@@ -13,6 +14,7 @@ public class SLList {
     }
 
     private IntNode sentinel;
+    private IntNode last;
     private int size;
 
     public SLList() {
@@ -47,13 +49,16 @@ public class SLList {
     }
 
     public void addLast(int x) {
+        /* Too slow
         IntNode p = sentinel;
-
         while (p.next != null) {
             p = p.next;
         }
 
         p.next = new IntNode(x, null);
+        size++; */
+        last.next = new IntNode(x, null);
+        last = last.next;
         size++;
     }
 
