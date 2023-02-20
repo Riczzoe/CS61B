@@ -50,7 +50,7 @@ public class TimeAList {
         AList<Double> times = new AList<>();
         AList<Integer> opCounts = new AList<>();
 
-        for (int i = 10000; i <= 1280000; i *= 2) {
+        for (int i = 1000; i <= 128000; i *= 2) {
             Ns.addLast(i);
             opCounts.addLast(i);
 
