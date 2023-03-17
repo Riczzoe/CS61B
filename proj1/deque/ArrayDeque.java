@@ -20,7 +20,7 @@ public class ArrayDeque<T> {
     private void resize(int newSize) {
         T[] newItems = (T[]) new Object[newSize];
         for (int i = 0; i < size; i++) {
-            newItems[i] = items[(firstIndex + i) % size];
+            newItems[i] = items[(firstIndex + i) % capacity];
         }
         firstIndex = 0;
         capacity = newSize;
