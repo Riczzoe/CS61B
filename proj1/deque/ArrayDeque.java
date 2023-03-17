@@ -32,7 +32,7 @@ public class ArrayDeque<T> {
             resize(2 * size);
         }
 
-        firstIndex = (firstIndex - 1) % capacity;
+        firstIndex = (firstIndex - 1 + capacity) % capacity;
         items[firstIndex] = item;
         size++;
     }
