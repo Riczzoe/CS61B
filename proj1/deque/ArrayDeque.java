@@ -3,26 +3,54 @@ package deque;
 import java.util.Iterator;
 
 public class ArrayDeque<T> {
+    private static int DEFAULT_CAPACITY = 50;
+    private T[] items;
+    private int firstIndex;
 
     public ArrayDeque() {
-
+        items = (T[]) new Object[DEFAULT_CAPACITY];
+        size = 0;
+        capacity = DEFAULT_CAPACITY;
+        firstIndex = 0;
     }
 
     private int size;
+    private int capacity;
+
+    private void resize(int newSize) {
+        T[] newItems = (T[]) new Object[newSize];
+        for (int i = 0; i < size; i++) {
+            newItems[i] = items[(firstIndex + i) % size];
+        }
+        firstIndex = 0;
+        capacity = newSize;
+        items = newItems;
+    }
 
     public void addFirst(T item) {
+        if (size == capacity) {
+            resize(2 * size);
+        }
 
+        firstIndex = (firstIndex - 1) % capacity;
+        items[firstIndex] = item;
+        size++;
     }
 
     public void addLast(T item) {
+        if (size == capacity) {
+            resize(2 * size);
+        }
 
+        items[(firstIndex + size) % capacity] = item;
+        size++;
     }
 
     /**
      * Returns true if deque is empty, false otherwise.
      */
     public boolean isEmpty() {
-        return true;
+        return size == 0;
     }
 
     /**
@@ -36,7 +64,9 @@ public class ArrayDeque<T> {
      * Prints the items in the deque from first to last.
      */
     public void printDeque() {
-
+        for (T item : items) {
+            System.out.println(item + "\t");
+        }
     }
 
     /**
@@ -44,7 +74,17 @@ public class ArrayDeque<T> {
      *  If no such item exists, returns null.
      */
     public T removeFirst() {
-        return null;
+        if (size == 0) {
+            return null;
+        }
+        if (size <= capacity / 4) {
+            resize(capacity / 2);
+        }
+
+        T first = items[firstIndex++];
+        firstIndex %= capacity;
+        size--;
+        return first;
     }
 
     /**
@@ -52,7 +92,16 @@ public class ArrayDeque<T> {
      * If no such item exists, returns null.
      */
     public T removeLast() {
-        return null;
+        if (size == 0) {
+            return null;
+        }
+        if (size <= capacity / 4) {
+            resize(capacity / 2);
+        }
+
+        T last = items[(firstIndex++ + size--) % capacity];
+        firstIndex %= capacity;
+        return last;
     }
 
     /**
@@ -60,11 +109,14 @@ public class ArrayDeque<T> {
      * and so forth. If no such item exists, returns null.
      */
     public T get(int index) {
-        return null;
+        if (index < firstIndex || index >= firstIndex + size) {
+            return null;
+        }
+        return items[index];
     }
 
     public T getRecursive(int index) {
-        return null;
+        return get(index);
     }
 
     public Iterator<T> iterator() {
@@ -72,6 +124,18 @@ public class ArrayDeque<T> {
     }
 
     public boolean equals(Object o) {
-        return false;
+        if (!(o instanceof ArrayDeque)) {
+            return false;
+        }
+        ArrayDeque<T> op = (ArrayDeque<T>) o;
+        if (size != op.size()) {
+            return false;
+        }
+        for (int i = 0; i < size;) {
+            if (items[i] != op.get(i)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
