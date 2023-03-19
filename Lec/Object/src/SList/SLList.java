@@ -1,12 +1,12 @@
 package SList;
 
-public class SLList {
-    public static class IntNode {
-        public int item;
+public class SLList<Item> {
+    public class IntNode {
+        public Item item;
         public IntNode next;
         public IntNode prev;
 
-        public IntNode(int item, IntNode next) {
+        public IntNode(Item item, IntNode next) {
             this.item = item;
             this.next = next;
         }
@@ -16,7 +16,7 @@ public class SLList {
     private int size;
     private IntNode sentBack;
 
-    public SLList(int x) {
+    public SLList(Item x) {
         sentFront = new IntNode(x, null);
         sentFront.next = new IntNode(x, null);
         sentBack = sentFront.next;
@@ -24,24 +24,28 @@ public class SLList {
     }
 
     public SLList() {
-        sentFront = new IntNode(63, null);
+        sentFront = new IntNode(null, null);
         sentBack = sentFront.next;
         size = 0;
     }
 
-    public void addFirst(int x) {
+    public void addFirst(Item x) {
         sentFront.next = new IntNode(x, sentFront.next);
         size++;
     }
 
-    public int getFirst() {
+    public Item getFirst() {
         return sentFront.next.item;
     }
 
-    public void addLast(int x) {
+    public void addLast(Item x) {
         sentBack.next = new IntNode(x, null);
         sentBack = sentBack.next;
         size++;
+    }
+
+    public Item removeLast() {
+        return null;
     }
 
     public int size() {
