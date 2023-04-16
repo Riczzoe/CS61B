@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<T> {
+public class ArrayDeque<T> implements Iterable<T> {
     private static int DEFAULT_CAPACITY = 50;
     private T[] items;
     private int firstIndex;
@@ -99,9 +99,15 @@ public class ArrayDeque<T> {
             resize(capacity / 2);
         }
 
-        T last = items[(firstIndex++ + size--) % capacity];
-        firstIndex %= capacity;
+        T last = items[(firstIndex + size-- -1) % capacity];
         return last;
+    }
+
+    public T getFirst() {
+        if (isEmpty()) {
+            return null;
+        }
+        return items[firstIndex];
     }
 
     /**
@@ -120,8 +126,28 @@ public class ArrayDeque<T> {
     }
 
     public Iterator<T> iterator() {
-        return null;
+        return new ArrayDequeIterator();
     }
+
+    private class ArrayDequeIterator implements Iterator<T> {
+
+        private int pos;
+
+        public ArrayDequeIterator() {
+            pos = firstIndex;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return pos - firstIndex < size;
+        }
+
+        @Override
+        public T next() {
+            return items[pos++ % capacity];
+        }
+    }
+
 
     public boolean equals(Object o) {
         if (!(o instanceof ArrayDeque)) {
