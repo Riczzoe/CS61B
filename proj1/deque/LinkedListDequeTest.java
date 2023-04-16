@@ -114,4 +114,21 @@ public class LinkedListDequeTest {
         }
 
     }
+
+    @Test
+    /* Add large number of elements to deque; check if order is correct. */
+    public void bigLLDequeEqual() {
+        LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
+        for (int i = 0; i < 10000; i++) {
+            lld1.addLast(i);
+        }
+
+        LinkedListDeque<Integer> lld2 = new LinkedListDeque<Integer>();
+        for (int i = 0; i < 10000; i++) {
+            lld2.addLast(i);
+        }
+
+        assertTrue(lld2.equals(lld1));
+
+    }
 }

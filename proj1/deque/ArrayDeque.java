@@ -98,7 +98,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
             resize(capacity / 2);
         }
 
-        T last = items[(firstIndex + size-- -1) % capacity];
+        T last = items[(firstIndex + size-- - 1) % capacity];
         return last;
     }
 
@@ -114,10 +114,6 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
         return items[(firstIndex + index) % capacity];
     }
 
-    public T getRecursive(int index) {
-        return get(index);
-    }
-
     @Override
     public Iterator<T> iterator() {
         return new ArrayDequeIterator();
@@ -127,7 +123,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
 
         private int pos;
 
-        public ArrayDequeIterator() {
+        private ArrayDequeIterator() {
             pos = firstIndex;
         }
 
@@ -145,18 +141,26 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof ArrayDeque)) {
+        if (!(o instanceof Deque)) {
             return false;
         }
+        if (this == o) {
+            return true;
+        }
+
         ArrayDeque<T> op = (ArrayDeque<T>) o;
         if (size != op.size()) {
             return false;
         }
         for (int i = 0; i < size;) {
-            if (items[i] != op.get(i)) {
+            if (!items[i].equals(op.get(i))) {
                 return false;
             }
         }
         return true;
+    }
+
+    public static void main(String[] args) {
+
     }
 }
