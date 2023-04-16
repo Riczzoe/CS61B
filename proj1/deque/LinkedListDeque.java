@@ -2,14 +2,14 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<T> implements Deque<T> {
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
 
     private static class Node<T> {
-        public Node prev;
-        public T item;
-        public Node next;
+        private Node prev;
+        private T item;
+        private Node next;
 
-        public Node(Node prev, T item, Node next) {
+        private Node(Node prev, T item, Node next) {
             this.prev = prev;
             this.item = item;
             this.next = next;
@@ -18,13 +18,6 @@ public class LinkedListDeque<T> implements Deque<T> {
 
     private Node<T> sentinel;
     private int size;
-
-    public LinkedListDeque(T item) {
-        this.sentinel = new Node<T>(null, null, null);
-        sentinel.next = new Node<>(sentinel, item, sentinel);
-        sentinel.prev = sentinel.next;
-        this.size = 1;
-    }
 
     public LinkedListDeque() {
         this.sentinel = new Node<T>(null, null, null);
@@ -148,23 +141,52 @@ public class LinkedListDeque<T> implements Deque<T> {
     }
 
     public Iterator<T> iterator() {
-        return null;
+        return new LinkedListDequeIterator();
+    }
+
+    private class LinkedListDequeIterator implements Iterator<T> {
+
+        Node p = sentinel.next;
+
+        private LinkedListDequeIterator() {
+
+        }
+
+        @Override
+        public boolean hasNext() {
+            return p != sentinel;
+        }
+
+        @Override
+        public T next() {
+            Node<T> current = p;
+            p = p.next;
+            return current.item;
+        }
     }
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof LinkedListDeque)) {
+        if (o == null) {
             return false;
         }
-        LinkedListDeque<T> oL = (LinkedListDeque<T>) o;
+
+        if (!(o instanceof Deque)) {
+            return false;
+        }
+        if (this == o) {
+            return true;
+        }
+
+        Deque<T> oL = (Deque<T>) o;
         if (size != oL.size()) {
             return false;
         }
 
         Node p = sentinel.next;
-        int i = 1;
+        int i = 0;
         while (p != sentinel) {
-            if (p.item != oL.get(i++)) {
+            if (!p.item.equals(oL.get(i++))) {
                 return false;
             }
             p = p.next;
