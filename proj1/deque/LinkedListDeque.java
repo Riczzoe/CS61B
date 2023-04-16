@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<T> {
+public class LinkedListDeque<T> implements Deque<T> {
 
     private static class Node<T> {
         public Node prev;
@@ -55,6 +55,7 @@ public class LinkedListDeque<T> {
         | sentinel | ===xxx==>  |   first   |
         |__________| <==xxx===  |___________|
      */
+    @Override
     public void addFirst(T item) {
         Node<T> newNode = new Node<T>(sentinel, item, sentinel.next);
         sentinel.next.prev = newNode;
@@ -62,6 +63,7 @@ public class LinkedListDeque<T> {
         size++;
     }
 
+    @Override
     public void addLast(T item) {
         Node<T> newNode = new Node<>(sentinel.prev, item, sentinel);
         sentinel.prev.next = newNode;
@@ -70,15 +72,9 @@ public class LinkedListDeque<T> {
     }
 
     /**
-     * Returns true if deque is empty, false otherwise.
-     */
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    /**
      * Returns the number of items in the deque.
      */
+    @Override
     public int size() {
         return size;
     }
@@ -86,6 +82,7 @@ public class LinkedListDeque<T> {
     /**
      * Prints the items in the deque from first to last.
      */
+    @Override
     public void printDeque() {
         Node p = sentinel;
 
@@ -99,6 +96,7 @@ public class LinkedListDeque<T> {
      *  Removes and returns the item at the front of the deque.
      *  If no such item exists, returns null.
      */
+    @Override
     public T removeFirst() {
         if (size == 0) {
             return null;
@@ -115,6 +113,7 @@ public class LinkedListDeque<T> {
      * Removes and returns the item at the back of the deque.
      * If no such item exists, returns null.
      */
+    @Override
     public T removeLast() {
         if (size == 0) {
             return null;
@@ -131,6 +130,7 @@ public class LinkedListDeque<T> {
      * Gets the item at the given index, where 0 is the front, 1 is the next item,
      * and so forth. If no such item exists, returns null.
      */
+    @Override
     public T get(int index) {
         if (size == 0 || index >= size) {
             return null;
@@ -151,6 +151,7 @@ public class LinkedListDeque<T> {
         return null;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (!(o instanceof LinkedListDeque)) {
             return false;
