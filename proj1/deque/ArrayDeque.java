@@ -102,23 +102,16 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
         return last;
     }
 
-    public T getFirst() {
-        if (isEmpty()) {
-            return null;
-        }
-        return items[firstIndex];
-    }
-
     /**
      * Gets the item at the given index, where 0 is the front, 1 is the next item,
      * and so forth. If no such item exists, returns null.
      */
     @Override
     public T get(int index) {
-        if (index < firstIndex || index >= firstIndex + size) {
+        if (index < 0 || index >= size) {
             return null;
         }
-        return items[index];
+        return items[(firstIndex + index) % capacity];
     }
 
     public T getRecursive(int index) {

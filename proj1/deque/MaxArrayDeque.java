@@ -16,7 +16,7 @@ public class MaxArrayDeque<T> extends ArrayDeque<T>{
             return null;
         }
 
-        T max = getFirst();
+        T max = get(0);
         for (T t : this) {
             if (comparator.compare(t, max) > 0) {
                 max = t;
@@ -30,7 +30,7 @@ public class MaxArrayDeque<T> extends ArrayDeque<T>{
             return null;
         }
 
-        T max = getFirst();
+        T max = get(0);
         for (T t : this) {
             if (c.compare(t, max) > 0) {
                 max = t;
